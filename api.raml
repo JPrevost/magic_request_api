@@ -1,0 +1,94 @@
+#%RAML 1.0
+title: MagicRequest
+version: v1
+baseUri: http://api.samplehost.com
+types:
+  Item:
+    type: object
+    properties:
+      id: number
+      title: string
+      author: string
+      status: string
+  User:
+    type: object
+    properties:
+      id: number
+      lastname: string
+      firstname: string
+      kerbid: string
+  Hold:
+    type: object
+    properties:
+      id: number
+      userId: number
+      itemId: number
+/item/{itemId}:
+  get:
+    description: displays details about a single Item.
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "id" : 123456,
+                "title": "I am a title",
+                "author": "Some guy",
+                "status": "Available"
+              }
+/user/{userId}:
+  get:
+    description: displays details about a single User.
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "id" : 987654,
+                "lastname": "Lastoson",
+                "firstname": "Firsto",
+                "kerbid": "flastoson"
+              }
+/hold:
+  /{holdId}:
+    get:
+      description: displays details about a single Hold.
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "id" : 77,
+                  "userId": 987654,
+                  "itemId": 123456
+                }
+  post:
+    description: create new hold for a specific item for a specific user.
+    body:
+      application/json:
+        example: |
+          {
+            "userId": 987654,
+            "itemId": 123456
+          }
+    responses:
+      201:
+        body:
+          application/json:
+            example: |
+              {
+                "Hold created": "true"
+              }
+  delete:
+    description: delete a specific hold.
+    body:
+      application/json:
+        example: |
+          {
+            "holdId": 77
+          }
+    responses:
+      204:
