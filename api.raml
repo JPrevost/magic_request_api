@@ -1,29 +1,32 @@
 #%RAML 1.0
 title: MagicRequest
 version: v1
-baseUri: http://api.samplehost.com
+baseUri: http://api.samplehost.com/{version}
 types:
-  Item:
+  Items:
+    displayName: Items
     type: object
     properties:
       id: number
       title: string
       author: string
       status: string
-  User:
+  Users:
+    displayName: Users
     type: object
     properties:
       id: number
       lastname: string
       firstname: string
       kerbid: string
-  Hold:
+  Holds:
+    displayName: Holds
     type: object
     properties:
       id: number
       userId: number
       itemId: number
-/item/{itemId}:
+/items/{itemId}:
   get:
     description: displays details about a single Item.
     responses:
@@ -32,12 +35,23 @@ types:
           application/json:
             example: |
               {
-                "id" : 123456,
-                "title": "I am a title",
-                "author": "Some guy",
-                "status": "Available"
+                "data": {
+                  "id" : 123456,
+                  "title": "I am a title",
+                  "author": "Some guy",
+                  "status": "Available"
+                },
+                "success": true,
+                "status": 200
               }
-/user/{userId}:
+      404:
+        body:
+          application/json:
+            example: |
+              { 
+                "message": "Item not found"
+              }
+/users/{userId}:
   get:
     description: displays details about a single User.
     responses:
@@ -51,7 +65,14 @@ types:
                 "firstname": "Firsto",
                 "kerbid": "flastoson"
               }
-/hold:
+      404:
+        body:
+          application/json:
+            example: |
+              { 
+                "message": "User not found"
+              }              
+/holds:
   /{holdId}:
     get:
       description: displays details about a single Hold.
@@ -65,30 +86,30 @@ types:
                   "userId": 987654,
                   "itemId": 123456
                 }
-  post:
-    description: create new hold for a specific item for a specific user.
-    body:
-      application/json:
-        example: |
-          {
-            "userId": 987654,
-            "itemId": 123456
-          }
-    responses:
-      201:
-        body:
-          application/json:
-            example: |
-              {
-                "Hold created": "true"
-              }
-  delete:
-    description: delete a specific hold.
-    body:
-      application/json:
-        example: |
-          {
-            "holdId": 77
-          }
-    responses:
-      204:
+    post:
+      description: create new hold for a specific item for a specific user.
+      body:
+        application/json:
+          example: |
+            {
+              "userId": 987654,
+              "itemId": 123456
+            }
+      responses:
+        201:
+          body:
+            application/json:
+              example: |
+                {
+                  "Hold created": "true"
+                }
+    delete:
+      description: delete a specific hold.
+      body:
+        application/json:
+          example: |
+            {
+              "holdId": 77
+            }
+      responses:
+        204:
