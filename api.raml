@@ -48,7 +48,7 @@ types:
         body:
           application/json:
             example: |
-              { 
+              {
                 "data": {
                   "message": "Item not found"
                 },
@@ -73,13 +73,13 @@ types:
         body:
           application/json:
             example: |
-              { 
+              {
                 "data": {
                   "message": "User not found"
                 },
                 "success": false,
                 "status": 404
-              }            
+              }
 /holds:
   /{holdId}:
     get:
@@ -98,13 +98,13 @@ types:
           body:
             application/json:
               example: |
-                { 
+                {
                   "data": {
                     "message": "Hold not found"
                   },
                   "success": false,
                   "status": 404
-                }    
+                }
     post:
       description: create new hold for a specific item for a specific user.
       body:
